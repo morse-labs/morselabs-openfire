@@ -2,7 +2,21 @@ FROM alpine
 
 LABEL maintainer Nick Byrne <nick@morselabs.net>
 
-ENV OPENFIRE_VERSION=4_7_5
+ARG OPENFIRE_VERSION_ARG=4_7_5
+ARG BUILD_VERSION_ARG=1.0
+ARG BUILD_DATE_ARG=19-09-23
+
+ENV OPENFIRE_VERSION=${OPENFIRE_VERSION_ARG}
+ENV BUILD_VERSION=${BUILD_VERSION_ARG}
+ENV BUILD_DATE=${BUILD_DATE_ARG}
+
+LABEL maintainer Nick Byrne <nick@morselabs.net>
+LABEL org.label-schema.name="Openfire"
+LABEL org.label-schema.description="Openfire is a real time collaboration (RTC) server supporting XMPP messaging"
+LABEL org.label-schema.url="https://www.igniterealtime.org/projects/openfire/"
+LABEL org.label-schema.application="openfire"
+LABEL org.label-schema.build-date=$BUILD_DATE
+LABEL org.label-schema.version=$BUILD_VERSION
 
 RUN set -ex \
  && apk --no-cache add \
