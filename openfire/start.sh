@@ -13,7 +13,7 @@ set -euo pipefail
 ln -sfn /data/security/keystore /opt/openfire/resources/security/keystore
 ln -sfn /data/embedded-db /opt/openfire/embedded-db
 rm -rf /opt/openfire/conf && ln -sfn /data/conf /opt/openfire/conf
-rm -rf /opt/openfire/plugins/*
+rm -rf /opt/openfire/plugins/search.jar
 ln -s /data/plugins/* /opt/openfire/plugins/
 
 # start openfire
