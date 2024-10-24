@@ -35,8 +35,8 @@ services:
       openfire-net:
         ipv4_address: 172.60.0.10
     extra_hosts:
-      - "xmpp.localhost.example:172.60.0.10"
-      - "conference.xmpp.localhost.example:172.60.0.10"
+      - "xmpp.local.example:172.60.0.10"
+      - "conference.xmpp.local.example:172.60.0.10"
 
   dozzle:
     image: amir20/dozzle:latest
