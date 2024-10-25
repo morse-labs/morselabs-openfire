@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.17
--- Dumped by pg_dump version 9.6.17
+-- Dumped from database version 14.8
+-- Dumped by pg_dump version 14.9 (Ubuntu 14.9-0ubuntu0.22.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -16,23 +16,9 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
---
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
 SET default_tablespace = '';
 
-SET default_with_oids = false;
+SET default_table_access_method = heap;
 
 --
 -- Name: ofextcomponentconf; Type: TABLE; Schema: public; Owner: openfire
@@ -454,7 +440,8 @@ CREATE TABLE public.ofroster (
     sub integer NOT NULL,
     ask integer NOT NULL,
     recv integer NOT NULL,
-    nick character varying(255)
+    nick character varying(255),
+    stanza text
 );
 
 
@@ -610,12 +597,12 @@ COPY public.ofgroupuser (groupname, username, administrator) FROM stdin;
 --
 
 COPY public.ofid (idtype, id) FROM stdin;
-18	11
+18	1
 19	1
 26	2
 23	6
 27	51
-25	7
+25	11
 \.
 
 
@@ -624,8 +611,8 @@ COPY public.ofid (idtype, id) FROM stdin;
 --
 
 COPY public.ofmucaffiliation (roomid, jid, affiliation) FROM stdin;
-1	admin@xmpp.localhost.example	10
-2	admin@xmpp.localhost.example	10
+1	admin@xmpp1.local.example	10
+2	admin@xmpp1.local.example	10
 \.
 
 
@@ -634,8 +621,8 @@ COPY public.ofmucaffiliation (roomid, jid, affiliation) FROM stdin;
 --
 
 COPY public.ofmucconversationlog (roomid, messageid, sender, nickname, logtime, subject, body, stanza) FROM stdin;
-1	1	muc1@conference.xmpp.localhost.example	\N	001605193216988		\N	<message type="groupchat" from="muc1@conference.xmpp.localhost.example" to="muc1@conference.xmpp.localhost.example"><subject></subject></message>
-2	2	muc2@conference.xmpp.localhost.example	\N	001605193235014		\N	<message type="groupchat" from="muc2@conference.xmpp.localhost.example" to="muc2@conference.xmpp.localhost.example"><subject></subject></message>
+1	1	muc1@conference.xmpp1.local.example	\N	001695458126613		\N	<message type="groupchat" from="muc1@conference.xmpp1.local.example" to="muc1@conference.xmpp1.local.example"><subject></subject></message>
+2	2	muc2@conference.xmpp1.local.example	\N	001695459548826		\N	<message type="groupchat" from="muc2@conference.xmpp1.local.example" to="muc2@conference.xmpp1.local.example"><subject></subject></message>
 \.
 
 
@@ -652,8 +639,8 @@ COPY public.ofmucmember (roomid, jid, nickname, firstname, lastname, url, email,
 --
 
 COPY public.ofmucroom (serviceid, roomid, creationdate, modificationdate, name, naturalname, description, lockeddate, emptydate, canchangesubject, maxusers, publicroom, moderated, membersonly, caninvite, roompassword, candiscoverjid, logenabled, subject, rolestobroadcast, usereservednick, canchangenick, canregister, allowpm, fmucenabled, fmucoutboundnode, fmucoutboundmode, fmucinboundnodes) FROM stdin;
-1	1	001605193216969	001605193216979	muc1	MUC One	First MUC room	000000000000000	\N	0	30	1	0	0	0	\N	1	1		7	0	1	1	0	0	\N	\N	\N
-1	2	001605193235007	001605193235010	muc2	MUC Two	Second MUC room	000000000000000	\N	0	30	1	0	0	0	\N	1	1		7	0	1	1	0	0	\N	\N	\N
+1	1	001695458126600	001695458126616	muc1	MUC One	MUC One	000000000000000	001695458126600	0	30	1	0	0	0	\N	1	1		7	0	1	1	0	0	\N	\N	\N
+1	2	001695459548824	001695459548826	muc2	MUC Two	MUC Two	000000000000000	001695459548824	0	30	1	0	0	0	\N	1	1		7	0	1	1	0	0	\N	\N	\N
 \.
 
 
@@ -711,18 +698,12 @@ COPY public.ofprivacylist (username, name, isdefault, list) FROM stdin;
 --
 
 COPY public.ofproperty (name, propvalue, encrypted, iv) FROM stdin;
-xmpp.socket.ssl.active	true	0	\N
-provider.admin.className	org.jivesoftware.openfire.admin.DefaultAdminProvider	0	\N
-xmpp.domain	xmpp.localhost.example	0	\N
-xmpp.auth.anonymous	false	0	\N
-provider.auth.className	org.jivesoftware.openfire.auth.DefaultAuthProvider	0	\N
-provider.lockout.className	org.jivesoftware.openfire.lockout.DefaultLockOutProvider	0	\N
-provider.group.className	org.jivesoftware.openfire.group.DefaultGroupProvider	0	\N
-provider.vcard.className	org.jivesoftware.openfire.vcard.DefaultVCardProvider	0	\N
-provider.securityAudit.className	org.jivesoftware.openfire.security.DefaultSecurityAuditProvider	0	\N
-provider.user.className	org.jivesoftware.openfire.user.DefaultUserProvider	0	\N
-passwordKey	YJ1nKWyrMeGvTKu	0	\N
-update.lastCheck	1605956807055	0	\N
+cache.MUCService'conference'Rooms.maxLifetime	-1	0	\N
+cache.MUCService'conference'Rooms.size	-1	0	\N
+cache.MUCService'conference'RoomStatistics.maxLifetime	-1	0	\N
+cache.MUCService'conference'RoomStatistics.size	-1	0	\N
+update.lastCheck	1695406785229	0	\N
+passwordKey	e2A6nTuK4LxcdHq	0	\N
 \.
 
 
@@ -731,7 +712,7 @@ update.lastCheck	1605956807055	0	\N
 --
 
 COPY public.ofpubsubaffiliation (serviceid, nodeid, jid, affiliation) FROM stdin;
-pubsub		xmpp.localhost.example	owner
+pubsub		xmpp1.local.example	owner
 \.
 
 
@@ -758,7 +739,7 @@ COPY public.ofpubsubitem (serviceid, nodeid, id, jid, creationdate, payload) FRO
 --
 
 COPY public.ofpubsubnode (serviceid, nodeid, leaf, creationdate, modificationdate, parent, deliverpayloads, maxpayloadsize, persistitems, maxitems, notifyconfigchanges, notifydelete, notifyretract, presencebased, senditemsubscribe, publishermodel, subscriptionenabled, configsubscription, accessmodel, payloadtype, bodyxslt, dataformxslt, creator, description, language, name, replypolicy, associationpolicy, maxleafnodes) FROM stdin;
-pubsub		0	001605193079586	001605193079586	\N	0	0	0	0	1	1	1	0	0	publishers	1	0	open				xmpp.localhost.example		English		\N	all	-1
+pubsub		0	001695406749770	001695406749770	\N	0	0	0	0	1	1	1	0	0	publishers	1	0	open				xmpp1.local.example		English		\N	all	-1
 \.
 
 
@@ -798,13 +779,7 @@ COPY public.ofremoteserverconf (xmppdomain, remoteport, permission) FROM stdin;
 -- Data for Name: ofroster; Type: TABLE DATA; Schema: public; Owner: openfire
 --
 
-COPY public.ofroster (rosterid, username, jid, sub, ask, recv, nick) FROM stdin;
-1	user3	user1@xmpp.localhost.example	3	-1	-1	user1
-2	user1	user3@xmpp.localhost.example	3	-1	-1	user3
-3	user2	user1@xmpp.localhost.example	3	-1	-1	user1
-4	user1	user2@xmpp.localhost.example	3	-1	-1	user2
-5	user2	user3@xmpp.localhost.example	3	-1	-1	user3
-6	user3	user2@xmpp.localhost.example	3	-1	-1	user2
+COPY public.ofroster (rosterid, username, jid, sub, ask, recv, nick, stanza) FROM stdin;
 \.
 
 
@@ -813,12 +788,6 @@ COPY public.ofroster (rosterid, username, jid, sub, ask, recv, nick) FROM stdin;
 --
 
 COPY public.ofrostergroups (rosterid, rank, groupname) FROM stdin;
-1	0	Friends
-2	0	Friends
-3	0	Friends
-4	0	Friends
-5	0	Friends
-6	0	Friends
 \.
 
 
@@ -835,12 +804,16 @@ COPY public.ofsaslauthorized (username, principal) FROM stdin;
 --
 
 COPY public.ofsecurityauditlog (msgid, username, entrystamp, summary, node, details) FROM stdin;
-1	admin	1605193086180	Successful admin console login attempt	xmpp1.localhost.example	The user logged in successfully to the admin console from address 172.60.0.1. 
-2	admin	1605193167191	created new user user1	xmpp1.localhost.example	name = User One, email = null, admin = false
-3	admin	1605193178661	created new user user2	xmpp1.localhost.example	name = User Two, email = null, admin = false
-4	admin	1605193216992	created new MUC room muc1	xmpp1.localhost.example	subject = \nroomdesc = First MUC room\nroomname = MUC One\nmaxusers = 30
-5	admin	1605193235018	created new MUC room muc2	xmpp1.localhost.example	subject = \nroomdesc = Second MUC room\nroomname = MUC Two\nmaxusers = 30
-6	admin	1605957429200	created new user user3	xmpp2.localhost.example	name = null, email = null, admin = false
+1	admin	1695406764325	Successful admin console login attempt	xmpp1.local.example	The user logged in successfully to the admin console from address 172.60.0.1. 
+2	admin	1695457998723	Successful admin console login attempt	xmpp1.local.example	The user logged in successfully to the admin console from address 172.60.0.1. 
+3	admin	1695458027835	created new user user1	xmpp1.local.example	name = null, email = null, admin = false
+4	admin	1695458027837	added group member to null	xmpp1.local.example	username = user1
+5	admin	1695458038221	created new user user2	xmpp1.local.example	name = null, email = null, admin = false
+6	admin	1695458038226	added group member to null	xmpp1.local.example	username = user2
+7	admin	1695458047890	created new user user3	xmpp1.local.example	name = null, email = null, admin = false
+8	admin	1695458047892	added group member to null	xmpp1.local.example	username = user3
+9	admin	1695458126629	created new MUC room muc1	xmpp1.local.example	subject = \nroomdesc = MUC One\nroomname = MUC One\nmaxusers = 30
+10	admin	1695459548833	created new MUC room muc2	xmpp1.local.example	subject = \nroomdesc = MUC Two\nroomname = MUC Two\nmaxusers = 30
 \.
 
 
@@ -850,9 +823,9 @@ COPY public.ofsecurityauditlog (msgid, username, entrystamp, summary, node, deta
 
 COPY public.ofuser (username, storedkey, serverkey, salt, iterations, plainpassword, encryptedpassword, name, email, creationdate, modificationdate) FROM stdin;
 admin	\N	\N	\N	\N	admin	\N	Administrator	admin@example.com	0              	0              
-user1	bwwYjdvCySlDbPP8ThRhIRPNIsg=	kghyw1bnKARQIQFnq1ro4EeC24s=	2q5Haus5PeiKO6T0U7BWPW6p+6B2xNPv	4096	\N	d8835ca5c85385d31b06e30d0479559f241d3c6c9bfe37b5a2ee228a258a73b8	User One	\N	001605193167159	001605193167159
-user2	qQZJ/YRNwP4ongfV375LPUlDkeE=	t0pnVWMK/9MAEBGYka0bNJfYe/Q=	nl9R20qgvMHcet0lZVPFuzH0gVs32naO	4096	\N	58af7cf2b2717559f2d4a8b642257fbbb5f60763989294d1698e647b332d8ca7	User Two	\N	001605193178643	001605193178643
-user3	+03PBnVHvhdMSRRT5QBvcKkEzQE=	75I3lmGj2CYHQhKd76wrXltXqBA=	LDmgafUpzJd2N2RlYH8S8Rd/wXDM/h4w	4096	\N	03ffc319cac75a3da02777e376f09e4a13fe7d654cdc291a7a55f3792738d65c	User Three	\N	001605957429153	001605957429153
+user1	cXZaM02n+hVQS+q3lOh82UhQdcI=	I1ng0eMY1LTbMf8GjwWYvWn2Sak=	O4RkgvZ9zsdN2Grm31ShO0gsZ3p0SECt	4096	\N	f9dcf30c20a1d31323ffc1e33c7316fc4830127435d4cc9ae77e1f6756eb6c50	\N	\N	001695458027813	001695458027813
+user2	1X2RckxFqWIf/uMCH2C46DaH+eM=	KidLjsd6EM0PX/n/D3kqZux8lmI=	6MqzY0f8ECD4rnqe8iI4G2SED5TpB18Q	4096	\N	9b9cb9aade89f4c476c2c69b08a2d4dbf9f99ae1511d4c630827384d342c7a03	\N	\N	001695458038215	001695458038215
+user3	9UA4wZvXRoqp3pQ4ApMmr8khvSY=	zq6un/s7T4Qf2kVQrTY13ASoZtY=	MEzFmuQhJ8PJQC+KybHn1qLUyNGGBiE4	4096	\N	d6b7e2750cba085168294fe5ab68e56b6f65917a2bdb49b292bebd2647f79c22	\N	\N	001695458047877	001695458047877
 \.
 
 
@@ -869,6 +842,7 @@ COPY public.ofuserflag (username, name, starttime, endtime) FROM stdin;
 --
 
 COPY public.ofuserprop (username, name, propvalue) FROM stdin;
+admin	console.rows_per_page	/group-summary.jsp=25,/session-summary.jsp=25,/muc-room-summary.jsp=25,/server-properties.jsp=25
 \.
 
 
@@ -885,7 +859,7 @@ COPY public.ofvcard (username, vcard) FROM stdin;
 --
 
 COPY public.ofversion (name, version) FROM stdin;
-openfire	32
+openfire	34
 \.
 
 
@@ -1142,6 +1116,13 @@ ALTER TABLE ONLY public.ofversion
 --
 
 CREATE INDEX ofmucconversationlog_msg_id ON public.ofmucconversationlog USING btree (messageid);
+
+
+--
+-- Name: ofmucconversationlog_roomtime_idx; Type: INDEX; Schema: public; Owner: openfire
+--
+
+CREATE INDEX ofmucconversationlog_roomtime_idx ON public.ofmucconversationlog USING btree (roomid, logtime);
 
 
 --
