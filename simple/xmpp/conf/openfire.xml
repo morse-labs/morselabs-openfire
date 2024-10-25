@@ -60,7 +60,7 @@
     </defaultProvider>
   </database> 
   <setup>true</setup> 
-  <fqdn>xmpp1.localhost.example</fqdn> 
+  <fqdn>xmpp1.local.example</fqdn> 
   <clustering>
     <enabled>true</enabled>
   </clustering>
